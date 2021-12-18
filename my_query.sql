@@ -28,9 +28,15 @@ checks AS (
     SELECT
         foo_bar_report.event_date AS event_date,
         foo_bar_report.dimensiony AS dimensiony,
-        abs(round(foo_bar_report.metricx - xxx_yyy_report.metricx)) AS col_c_rel_diff,
         abs(
-            (round(foo_bar_report.metricx - xxx_yyy_report.metricx) / foo_bar_report.metricx) * 100
+            round(foo_bar_report.metricx - xxx_yyy_report.metricx)
+        ) AS col_c_rel_diff,
+        abs(
+            (
+                round(
+                    foo_bar_report.metricx - xxx_yyy_report.metricx
+                ) / foo_bar_report.metricx
+            ) * 100
         ) AS metric_x_rel_diff
     FROM foo_bar_report
     LEFT JOIN xxx_yyy_report
@@ -48,7 +54,7 @@ errors AS (
         ) AS error_msg
     FROM checks
     WHERE
-        event_date <= current_date - INTERVAL '2'  day
+        event_date <= current_date - INTERVAL '2'   day
       AND
         (
             (dimensiony NOT IN ('a', 'b', 'c') AND col_c_rel_diff > 10 AND metric_x_rel_diff > 1)
