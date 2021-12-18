@@ -54,7 +54,7 @@ errors AS (
         ) AS error_msg
     FROM checks
     WHERE
-        event_date <= current_date - INTERVAL '2'   day
+        event_date <= current_date - INTERVAL '2'    day
       AND
         (
             (dimensiony NOT IN ('a', 'b', 'c') AND col_c_rel_diff > 10 AND metric_x_rel_diff > 1)
